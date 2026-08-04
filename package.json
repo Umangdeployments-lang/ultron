@@ -1,0 +1,32 @@
+{
+    "name": "ultranomous",
+    "version": "0.1.0",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "dev": "turbo run dev",
+        "dev:web": "turbo run dev --filter=web",
+        "dev:api": "turbo run dev --filter=api",
+        "build": "turbo run build",
+        "lint": "turbo run lint",
+        "db:generate": "npm run db:generate --workspace=api",
+        "db:migrate": "npm run db:migrate --workspace=api",
+        "db:push": "npm run db:push --workspace=api",
+        "db:studio": "npm run db:studio --workspace=api"
+    },
+    "devDependencies": {
+        "turbo": "^2.3.3",
+        "typescript": "^5.7.2"
+    },
+    "engines": {
+        "node": ">=20"
+    },
+    "packageManager": "npm@11.11.0",
+    "dependencies": {
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.14.4"
+    }
+}

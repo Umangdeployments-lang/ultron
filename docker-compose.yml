@@ -1,0 +1,38 @@
+﻿version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ultranomous-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ultranomous
+      POSTGRES_PASSWORD: ultranomous_dev_password
+      POSTGRES_DB: ultranomous
+    ports:
+      - "5432:5432"
+    volumes:
+      - ultranomous_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ultranomous" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ultranomous-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ultranomous_redisdata:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ultranomous_pgdata:
+  ultranomous_redisdata:
