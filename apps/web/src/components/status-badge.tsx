@@ -1,27 +1,75 @@
 "use client";
 
+import {
+    CheckCircle2,
+    Clock,
+    Loader2,
+    XCircle,
+    AlertTriangle,
+    CircleSlash,
+    ShieldCheck,
+    Ban,
+} from "lucide-react";
+
 /**
- * Execution status pill with color coding.
+ * Execution status pill with color coding and icon.
  * Shared across dashboard / executions / approvals pages.
  */
 export function StatusBadge({ status }: { status: string }) {
-    const colors: Record<string, string> = {
-        queued: "bg-yellow-500/10 text-yellow-400",
-        running: "bg-blue-500/10 text-blue-400",
-        waiting_approval: "bg-orange-500/10 text-orange-400",
-        succeeded: "bg-green-500/10 text-green-400",
-        failed: "bg-red-500/10 text-red-400",
-        cancelled: "bg-gray-500/10 text-gray-400",
-        timed_out: "bg-gray-500/10 text-gray-400",
-        pending: "bg-yellow-500/10 text-yellow-400",
-        approved: "bg-green-500/10 text-green-400",
-        rejected: "bg-red-500/10 text-red-400",
+    const config: Record<
+        string,
+        { className: string; icon: React.ReactNode }
+    > = {
+        queued: {
+            className: "status-warning",
+            icon: <Clock className="h-3 w-3" />,
+        },
+        pending: {
+            className: "status-warning",
+            icon: <Clock className="h-3 w-3" />,
+        },
+        running: {
+            className: "status-running",
+            icon: <Loader2 className="h-3 w-3 animate-spin" />,
+        },
+        waiting_approval: {
+            className: "status-warning",
+            icon: <ShieldCheck className="h-3 w-3" />,
+        },
+        succeeded: {
+            className: "status-success",
+            icon: <CheckCircle2 className="h-3 w-3" />,
+        },
+        approved: {
+            className: "status-success",
+            icon: <CheckCircle2 className="h-3 w-3" />,
+        },
+        failed: {
+            className: "status-danger",
+            icon: <XCircle className="h-3 w-3" />,
+        },
+        rejected: {
+            className: "status-danger",
+            icon: <Ban className="h-3 w-3" />,
+        },
+        cancelled: {
+            className: "status-neutral",
+            icon: <CircleSlash className="h-3 w-3" />,
+        },
+        timed_out: {
+            className: "status-danger",
+            icon: <AlertTriangle className="h-3 w-3" />,
+        },
     };
+
+    const c = config[status] ?? {
+        className: "status-neutral",
+        icon: <AlertTriangle className="h-3 w-3" />,
+    };
+
     return (
-        <span
-            className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${colors[status] ?? "bg-gray-500/10 text-gray-400"
-                }`}
-        >
+        <span className={`badge ${c.className}`}>
+            {c.icon}
             {status.replace("_", " ")}
         </span>
     );

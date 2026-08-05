@@ -2,50 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
-        --primary: 221.2 83.2% 53.3%;
-        --primary-foreground: 210 40% 98%;
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 221.2 83.2% 53.3%;
-        --radius: 0.5rem;
-    }
-
-    .dark {
-        --background: 222.2 84% 4.9%;
+        --background: 220 25% 4%;
         --foreground: 210 40% 98%;
-        --card: 222.2 47.4% 11.2%;
+        --card: 220 25% 6%;
         --card-foreground: 210 40% 98%;
-        --popover: 222.2 47.4% 11.2%;
+        --popover: 220 25% 6%;
         --popover-foreground: 210 40% 98%;
-        --primary: 217.2 91.2% 59.8%;
-        --primary-foreground: 222.2 47.4% 11.2%;
-        --secondary: 217.2 32.6% 17.5%;
+        --primary: 217 91% 60%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 217 32% 16%;
         --secondary-foreground: 210 40% 98%;
-        --muted: 217.2 32.6% 17.5%;
-        --muted-foreground: 215 20.2% 65.1%;
-        --accent: 217.2 32.6% 17.5%;
+        --muted: 217 33% 14%;
+        --muted-foreground: 215 20% 65%;
+        --accent: 142 71% 36%;
         --accent-foreground: 210 40% 98%;
-        --destructive: 0 62.8% 30.6%;
+        --destructive: 0 84% 60%;
         --destructive-foreground: 210 40% 98%;
-        --border: 217.2 32.6% 17.5%;
-        --input: 217.2 32.6% 17.5%;
-        --ring: 224.3 76.3% 48%;
+        --border: 217 33% 18%;
+        --input: 217 33% 18%;
+        --ring: 217 91% 60%;
+        --radius: 0.75rem;
+        --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
     }
 
     * {
@@ -53,63 +35,144 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground antialiased;
+        font-family: var(--font-sans);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .font-display {
+        font-family: var(--font-display);
     }
 }
 
-/* Glassmorphism helpers */
-.glass {
-    @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+/* ============ Component Helpers ============ */
+
+@layer components {
+
+    /* Card */
+    .card {
+        @apply rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-lg shadow-black/20;
+    }
+
+    .card-hover {
+        @apply transition-all duration-200 hover:border-primary/40 hover:bg-white/[0.06] hover:shadow-xl hover:shadow-primary/5 active:scale-[0.98];
+    }
+
+    /* Buttons */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50;
+    }
+
+    .btn-primary {
+        @apply btn bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20;
+    }
+
+    .btn-secondary {
+        @apply btn bg-white/10 text-foreground hover:bg-white/15 border border-white/10;
+    }
+
+    .btn-ghost {
+        @apply btn text-muted-foreground hover:bg-white/5 hover:text-foreground;
+    }
+
+    .btn-success {
+        @apply btn bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30;
+    }
+
+    .btn-danger {
+        @apply btn bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20;
+    }
+
+    .btn-warning {
+        @apply btn bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 border border-amber-500/30;
+    }
+
+    /* Inputs */
+    .input {
+        @apply w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none transition focus:border-primary/60 focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground/60;
+    }
+
+    .textarea {
+        @apply input min-h-[80px] resize-y;
+    }
+
+    .select {
+        @apply input appearance-none cursor-pointer;
+    }
+
+    /* Badges */
+    .badge {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+    }
+
+    /* Status colors */
+    .status-success {
+        @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+    }
+
+    .status-warning {
+        @apply bg-amber-500/10 text-amber-400 border border-amber-500/20;
+    }
+
+    .status-running {
+        @apply bg-blue-500/10 text-blue-400 border border-blue-500/20;
+    }
+
+    .status-danger {
+        @apply bg-red-500/10 text-red-400 border border-red-500/20;
+    }
+
+    .status-neutral {
+        @apply bg-white/5 text-muted-foreground border border-white/10;
+    }
+
+    /* Table */
+    .table-wrap {
+        @apply overflow-x-auto;
+    }
+
+    .table {
+        @apply w-full text-left text-sm;
+    }
+
+    .table th {
+        @apply border-b border-white/10 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground;
+    }
+
+    .table td {
+        @apply border-b border-white/5 px-5 py-3;
+    }
+
+    .table tbody tr {
+        @apply transition-colors hover:bg-white/[0.04];
+    }
+
+    /* Empty state */
+    .empty-state {
+        @apply flex flex-col items-center justify-center rounded-xl border border-dashed border-white/15 bg-white/[0.02] py-16 text-center;
+    }
 }
 
-.glass-card {
-    @apply rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg shadow-black/20;
+/* Pulse animation for running status */
+@keyframes pulse-dot {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
 }
 
-.glass-hover {
-    @apply transition-all duration-200 hover:border-primary/40 hover:bg-white/10;
-}
-
-/* React Flow dark theme overrides */
-.react-flow__node {
-    font-family: inherit;
-}
-
-.react-flow__attribution {
-    background: transparent;
-    color: rgba(255, 255, 255, 0.3);
-}
-
-.react-flow__attribution a {
-    color: rgba(255, 255, 255, 0.3);
-}
-
-.react-flow__edge-path {
-    stroke: rgba(148, 163, 184, 0.6);
-    stroke-width: 2;
-}
-
-.react-flow__edge.selected .react-flow__edge-path {
-    stroke: hsl(var(--primary));
-}
-
-.react-flow__minimap {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.react-flow__controls {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.react-flow__controls button {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.react-flow__controls button:hover {
-    background: rgba(255, 255, 255, 0.1);
+.animate-pulse-dot {
+    animation: pulse-dot 1.5s ease-in-out infinite;
 }
 
 /* Scrollbar */
@@ -123,10 +186,54 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* React Flow dark theme */
+.react-flow__node {
+    font-family: var(--font-sans);
+}
+
+.react-flow__attribution {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.react-flow__attribution a {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.react-flow__edge-path {
+    stroke: rgba(148, 163, 184, 0.6);
+    stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+    stroke: hsl(var(--primary));
+}
+
+.react-flow__minimap {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.react-flow__controls {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.react-flow__controls button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    transition: background 0.15s;
+}
+
+.react-flow__controls button:hover {
+    background: rgba(255, 255, 255, 0.12);
 }

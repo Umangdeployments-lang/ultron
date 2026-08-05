@@ -7,9 +7,18 @@ import { AppModule } from "./app.module";
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    // Enable CORS for the Next.js frontend
+    // Enable CORS for the Next.js frontend (configurable for prod)
+    const configService = app.get(ConfigService);
+    const corsOrigins = (
+        configService.get<string>("CORS_ORIGINS") ??
+        "http://localhost:3000,http://localhost:3001"
+    )
+        .split(",")
+        .map((o) => o.trim())
+        .filter(Boolean);
+
     app.enableCors({
-        origin: ["http://localhost:3000", "http://localhost:3001"],
+        origin: corsOrigins,
         credentials: true,
     });
 
@@ -40,7 +49,6 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup("api/docs", app, document);
 
-    const configService = app.get(ConfigService);
     const port = configService.get<number>("PORT") ?? 4000;
 
     await app.listen(port);

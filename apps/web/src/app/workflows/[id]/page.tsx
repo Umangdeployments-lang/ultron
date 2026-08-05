@@ -262,7 +262,8 @@ export default function WorkflowEditorPage() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => router.push("/workflows")}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-white/10"
+                            className="btn-ghost !h-8 !w-8 !p-0"
+                            aria-label="Back to workflows"
                         >
                             <ArrowLeft className="h-4 w-4" />
                         </button>
@@ -274,16 +275,28 @@ export default function WorkflowEditorPage() {
                                         wf ? { ...wf, name: e.target.value } : wf
                                     )
                                 }
-                                className="bg-transparent text-sm font-semibold outline-none"
+                                className="input !border-transparent !bg-transparent !px-0 !py-0.5 text-sm font-semibold"
                             />
-                            <div className="text-[10px] text-muted-foreground">
-                                v{workflow?.version ?? 1} · {workflow?.status ?? "draft"}
+                            <div className="flex items-center gap-1.5">
+                                <span className="badge status-neutral !px-1.5 !py-0.5 text-[10px]">
+                                    v{workflow?.version ?? 1}
+                                </span>
+                                <span
+                                    className={`badge ${workflow?.status === "active"
+                                            ? "status-success"
+                                            : workflow?.status === "paused"
+                                                ? "status-warning"
+                                                : "status-neutral"
+                                        } !px-1.5 !py-0.5 text-[10px]`}
+                                >
+                                    {workflow?.status ?? "draft"}
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
                         {workflow?.hookPath && (
-                            <div className="hidden items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs text-muted-foreground md:flex">
+                            <div className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-muted-foreground md:flex">
                                 <Globe className="h-3.5 w-3.5" />
                                 <span className="font-mono">/hooks/{workflow.hookPath}</span>
                             </div>
@@ -291,19 +304,19 @@ export default function WorkflowEditorPage() {
                         <button
                             onClick={save}
                             disabled={saving}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium transition hover:bg-white/15 disabled:opacity-50"
+                            className="btn-secondary !py-1.5 text-xs"
                         >
                             <Save className="h-3.5 w-3.5" /> {saving ? "Saving…" : "Save"}
                         </button>
                         <button
                             onClick={runTest}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-yellow-500/20 px-3 py-1.5 text-xs font-medium text-yellow-400 transition hover:bg-yellow-500/30"
+                            className="btn-secondary !border-yellow-500/30 !bg-yellow-500/10 !py-1.5 !text-yellow-400 hover:!bg-yellow-500/20 text-xs"
                         >
                             <Play className="h-3.5 w-3.5" /> Test
                         </button>
                         <button
                             onClick={publish}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition hover:bg-primary/90"
+                            className="btn-primary !py-1.5 text-xs"
                         >
                             <Globe className="h-3.5 w-3.5" /> Publish
                         </button>

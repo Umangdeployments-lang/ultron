@@ -9,6 +9,9 @@ build/
 .next/
 out/
 .turbo/
+*.tsbuildinfo
+.vercel/
+.railway/
 
 # Environment
 .env
