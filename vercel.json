@@ -1,0 +1,6 @@
+{
+    "framework": "nextjs",
+    "installCommand": "npm ci",
+    "buildCommand": "npm run build --workspace=@ultron/shared && npm run build --workspace=@ultron/web",
+    "outputDirectory": "apps/web/.next"
+}
